@@ -1,0 +1,34 @@
+{
+  "name": "supermercado-bpm",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GrupoOtto/supermercado-bpm.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/GrupoOtto/supermercado-bpm/issues"
+  },
+  "homepage": "https://github.com/GrupoOtto/supermercado-bpm#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "express-validation": "^1.0.2",
+    "http-status": "^1.2.0",
+    "joi": "^13.6.0",
+    "axios": "^0.18.0",
+    "lodash": "^4.17.11",
+    "querystring": "^0.2.0"
+  },
+  "devDependencies": {
+    "morgan": "^1.9.1",
+    "nodemon": "^1.18.4"
+  }
+}
