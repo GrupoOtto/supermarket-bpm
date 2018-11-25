@@ -1,26 +1,35 @@
-const bonita = require("./bonita")
+const bonita = require('./bonita');
 
-const handle = fn => (req, res, next) => fn(req, res, next).catch(next)
+const handle = fn => (req, res, next) => fn(req, res, next).catch(next);
 
-const forCase = async (caseId) => null
+const resolvers = {};
 
-const resolve = async (caseId) => null
+const forCase = caseId =>
+  new Promise((resolve, reject) => {
+    resolvers[caseId] = resolve;
+  });
+
+const resolve = caseId => resolvers[caseId];
 
 module.exports = app => {
   app.get(
-    "/products-list",
+    '/products-list',
     handle(async (req, res) => {
-      const credentials = await login()
+      const credentials = await bonita.login();
 
-      const caseId = initiate(credentials)('5662606861148655159')
+      const processId = await bonita.getProcess(credentials, 'pool3');
+      const caseId = await bonita.initiate(credentials, processId);
 
-      const list = await forCase(caseId)
+      const list = await forCase(caseId);
 
-      res.status(status.OK).json(await products.findByType(id))
+      res.json(list);
     })
-  )
+  );
 
-  app.put("/response", handle(async (req, res) => {
-    resolve(req.headers.caseId)(req.body)
-  }))
-}
+  app.put(
+    '/resolve',
+    handle(async (req, res) => {
+      resolve(req.headers.caseid)(req.body);
+    })
+  );
+};
