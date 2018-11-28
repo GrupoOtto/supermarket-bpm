@@ -17,13 +17,9 @@ module.exports = app => {
     handle(async (req, res) => {
       const credentials = await bonita.login();
       const processId = await bonita.getProcess(credentials, 'pool3');
-      const variables = [
-        {
-          name: "token",
-          value: ""
-        }
-      ]
+      const variables = [{ name: "token", value: req.headers.authorization }]
       const caseId = await bonita.initiate(credentials, processId, variables);
+      console.log("[BONITA] Started case id", caseId)
 
       const list = await forCase(caseId);
 
