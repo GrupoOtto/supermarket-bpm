@@ -16,9 +16,14 @@ module.exports = app => {
     '/products-list',
     handle(async (req, res) => {
       const credentials = await bonita.login();
-
       const processId = await bonita.getProcess(credentials, 'pool3');
-      const caseId = await bonita.initiate(credentials, processId);
+      const variables = [
+        {
+          name: "token",
+          value: ""
+        }
+      ]
+      const caseId = await bonita.initiate(credentials, processId, variables);
 
       const list = await forCase(caseId);
 

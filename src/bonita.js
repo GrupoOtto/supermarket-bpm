@@ -4,7 +4,7 @@ const _ = require('lodash');
 
 const doLogin = async (username, password, redirect = false) =>
   axios.post(
-    'http://localhost:8080/bonita/loginservice',
+    'http://bonita:8080/bonita/loginservice',
     qs.stringify({
       username,
       password,
@@ -33,7 +33,7 @@ exports.login = async () => {
 
 exports.initiate = async (credentials, processDefinitionId, variables) => {
   const response = await axios.post(
-    'http://localhost:8080/bonita/API/bpm/case',
+    'http://bonita:8080/bonita/API/bpm/case',
     {
       processDefinitionId,
       variables
@@ -53,7 +53,7 @@ exports.initiate = async (credentials, processDefinitionId, variables) => {
 
 exports.getProcess = async (credentials, processName) => {
   const response = await axios.get(
-    'http://localhost:8080/bonita/API/bpm/process',
+    'http://bonita:8080/bonita/API/bpm/process',
     {
       params: { s: processName },
       headers: {
