@@ -30,7 +30,7 @@ module.exports = app => {
     })
   );
 
-  app.get(
+  app.post(
     '/prepare-sale',
     handle(async (req, res) => {
       const credentials = await bonita.login();
