@@ -19,7 +19,7 @@ module.exports = app => {
     '/products-list',
     handle(async (req, res) => {
       const credentials = await bonita.login();
-      const processId = await bonita.getProcess(credentials, 'pool3');
+      const processId = await bonita.getProcess(credentials, 'products');
       const variables = [{ name: 'token', value: req.headers.authorization }];
       const caseId = await bonita.initiate(credentials, processId, variables);
       console.log('[BONITA] Started case id', caseId);
@@ -30,11 +30,11 @@ module.exports = app => {
     })
   );
 
-  app.get(
+  app.post(
     '/prepare-sale',
     handle(async (req, res) => {
       const credentials = await bonita.login();
-      const processId = await bonita.getProcess(credentials, 'prepare-sale');
+      const processId = await bonita.getProcess(credentials, 'sale');
       const variables = [
         { name: 'token', value: req.headers.authorization },
         { name: 'productsCart', value: req.body.productsCart },
@@ -45,7 +45,23 @@ module.exports = app => {
 
       const list = await forCase(caseId);
 
-      res.json(list);
+      res.json({ list, caseId });
+    })
+  );
+
+  app.post(
+    '/confirm-sale',
+    handle(async (req, res) => {
+      const credentials = await bonita.login();
+      const taskId = await bonita.getTask(credentials, req.body.caseId);
+      if (!taskId) throw error(400, 'There is no previous sales for caseId');
+
+      await bonita.setSaleInfo(credentials, req.body.caseId, req.body.saleInfo);
+      await bonita.continueTask(credentials, taskId);
+
+      const confirmation = await forCase(req.body.caseId);
+
+      res.json(confirmation);
     })
   );
 
