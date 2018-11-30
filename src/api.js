@@ -79,6 +79,7 @@ module.exports = app => {
       reject(req.headers.caseid)(
         error(req.body.status || 500, req.body.message || 'Internal error')
       );
+      res.status(status.OK).json({ message: 'Case not finished' });
     })
   );
 };
