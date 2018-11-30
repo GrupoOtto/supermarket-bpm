@@ -3,6 +3,7 @@ const app = express();
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const api = require('./api');
+const loggin = require('./utils/loggin');
 
 const port = process.env.PORT || 3000
 
@@ -13,6 +14,7 @@ app.use(
   })
 );
 app.use(morgan('tiny'));
+app.use(loggin.timeLoggin())
 
 api(app);
 

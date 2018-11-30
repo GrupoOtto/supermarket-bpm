@@ -1,6 +1,7 @@
 const bonita = require('./bonita');
 const status = require('http-status');
 const error = require('http-errors');
+const loggin = require('./utils/loggin');
 
 const handle = fn => (req, res, next) => fn(req, res, next).catch(next);
 
@@ -45,6 +46,8 @@ module.exports = app => {
 
       const list = await forCase(caseId);
 
+      loggin.logOpen(list.products, caseId, list.total, undefined, req.body.couponCode)
+
       res.json({ list, caseId });
     })
   );
@@ -60,6 +63,8 @@ module.exports = app => {
       await bonita.continueTask(credentials, taskId);
 
       const confirmation = await forCase(req.body.caseId);
+
+      loggin.logEnd(req.body.caseId, req.body.saleInfo.user.email, undefined)
 
       res.json(confirmation);
     })
