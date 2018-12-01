@@ -52,14 +52,14 @@
   | --------------- | -------- | -------- | ----------------- |
   | `authorization` | `String` | ✔        | A JSON Web Token. |
 
-**Body Params**
+  **Body Params**
 
-| Name       | Type            | Required | Description                                                                                                                |
-| ---------- | --------------- | -------- | -------------------------------------------------------------------------------------------------------------------------- |
-| `caseId`   | `String`        | ✔        | An unique id of the bonita process in excecution.                                                                          |
-| `saleInfo` | `String` (JSON) | ✔        | Contains all the information related to the purchase. This includes user and shipment details and credit card information. |
+  | Name       | Type            | Required | Description                                                                                                                |
+  | ---------- | --------------- | -------- | -------------------------------------------------------------------------------------------------------------------------- |
+  | `caseId`   | `String`        | ✔        | An unique id of the bonita process in excecution.                                                                          |
+  | `saleInfo` | `String` (JSON) | ✔        | Contains all the information related to the purchase. This includes user and shipment details and credit card information. |
 
-Retorna la información referida a la compra y el caseId del proceso asociado.
+  Retorna la información referida a la compra y el caseId del proceso asociado.
 
 ## 3 Private Endpoints
 
