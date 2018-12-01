@@ -15,18 +15,17 @@
 
 - `GET: '/products-list'`
 
-  Retorna la lista completa de productos con su correspondiente precio de acuerdo a las reglas de negocio establecidas.
-
   **HTTP Headers**
 
   | Name            | Type     | Required | Description       |
   | --------------- | -------- | -------- | ----------------- |
   | `authorization` | `String` | ✔        | A JSON Web Token. |
 
-- `GET: '/prepare-sale'`
+  Retorna la lista completa de productos con su correspondiente precio de acuerdo a las reglas de negocio establecidas.
+
+* `GET: '/prepare-sale'`
 
   Enpoint para comenzar el proceso de compra.
-  Retorna una lista con los productos de la compra solicitada, cada uno con sus precios actualizados de acuerdo a las reglas de negocio y a la aplicación o no de un cupon válido. Adicionalmente retorna el caseId de la instancia de proceso de bonita ejecutado.
 
   **HTTP Headers**
 
@@ -41,10 +40,11 @@
   | `productsCart` | `JSON`   | ✔        | Object which each pair (key, value) represents id of a product and the quantity to buy respectively. |
   | `couponCode`   | `String` | ✔        | Coupon code reference.                                                                               |
 
-- `GET: '/confirm-sale'`
+  Retorna una lista con los productos de la compra solicitada, cada uno con sus precios actualizados de acuerdo a las reglas de negocio y a la aplicación o no de un cupon válido. Adicionalmente retorna el caseId de la instancia de proceso de bonita ejecutado.
+
+* `GET: '/confirm-sale'`
 
   Enpoint para continuar y finalizar con el proceso de compra.
-  Retorna la información referida a la compra y el caseId del proceso asociado.
 
   **HTTP Headers**
 
@@ -58,6 +58,8 @@
 | ---------- | --------------- | -------- | -------------------------------------------------------------------------------------------------------------------------- |
 | `caseId`   | `String`        | ✔        | An unique id of the bonita process in excecution.                                                                          |
 | `saleInfo` | `String` (JSON) | ✔        | Contains all the information related to the purchase. This includes user and shipment details and credit card information. |
+
+Retorna la información referida a la compra y el caseId del proceso asociado.
 
 ## 3 Private Endpoints
 
