@@ -7,33 +7,28 @@ const influx = new Influx.InfluxDB({
   schema: [{
     measurement: 'response_times',
     fields: {
-      path: Influx.FieldType.STRING,
       duration: Influx.FieldType.INTEGER,
-      status: Influx.FieldType.INTEGER
     },
-    tags: ['ip']
+    tags: ['ip', 'path', 'status']
   }, {
-    measurement: 'opend',
+    measurement: 'leads',
     fields: {
-      caseId: Influx.FieldType.INTEGER,
       total: Influx.FieldType.FLOAT
     },
-    tags: ['user']
+    tags: ['user', 'caseId']
   }, {
-    measurement: 'intent',
+    measurement: 'sales',
     fields: {
-      product: Influx.FieldType.STRING,
       amount: Influx.FieldType.INTEGER,
       final: Influx.FieldType.FLOAT,
     },
-    tags: ['user', 'coupon', 'case']
+    tags: ['user', 'product', 'coupon', 'caseId']
   }, {
-    measurement: 'resolve',
+    measurement: 'conversion',
     fields: {
-      caseId: Influx.FieldType.INTEGER,
-      email: Influx.FieldType.STRING
+      total: Influx.FieldType.FLOAT
     },
-    tags: ['user']
+    tags: ['user', 'email', 'caseId']
   }]
 });
 
@@ -51,12 +46,12 @@ exports.timeLoggin = () => (req, res, next) => {
       await influx.writePoints([{
         measurement: 'response_times',
         fields: {
-          path,
           duration,
-          status
         },
         tags: {
-          ip
+          ip,
+          path,
+          status
         }
       }]);
     } catch (err) {
@@ -69,12 +64,12 @@ exports.timeLoggin = () => (req, res, next) => {
 exports.logOpen = async (products, caseId, total, user, coupon) => {
   try {
     influx.writePoints([{
-      measurement: 'opend',
+      measurement: 'leads',
       fields: {
-        caseId,
         total,
       },
       tags: {
+        caseId,
         user
       }
     }])
@@ -84,14 +79,14 @@ exports.logOpen = async (products, caseId, total, user, coupon) => {
       amount,
       final
     }) => ({
-      mmeasurement: 'intent',
+      measurement: 'sales',
       fields: {
-        product,
         amount,
         final
       },
       tags: {
         user,
+        product,
         coupon,
         caseId
       }
@@ -101,16 +96,17 @@ exports.logOpen = async (products, caseId, total, user, coupon) => {
   }
 }
 
-exports.logEnd = async (caseId, email, user) => {
+exports.logEnd = async (caseId, email, user, total) => {
   try {
     influx.writePoints([{
-      measurement: 'resolve',
+      measurement: 'conversion',
       fields: {
-        caseId,
-        email
+        total
       },
       tags: {
-        user
+        user,
+        caseId,
+        email
       }
     }])
   } catch (error) {
